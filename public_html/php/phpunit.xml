@@ -11,6 +11,6 @@
          <directory>.</directory>
          </testsuite>
 
-         </testsuite>
+         </testsuites>
 
 </phpunit>
