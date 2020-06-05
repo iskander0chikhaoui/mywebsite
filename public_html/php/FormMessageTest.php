@@ -1,77 +1,34 @@
 <?php
+use PHPUnit\Framework\TestCase;
 
-$errorMSG = "";
+class StackTest extends TestCase
+{
+    public function testEmpty()
+    {
+        $stack = [];
+        $this->assertEmpty($stack);
 
-// NAME
-if (empty(filter_input(INPUT_POST, 'name'))) {
-    $errorMSG = "Name is required ";
-} else {
-    $name = filter_input(INPUT_POST, 'name');
-}
+        return $stack;
+    }
 
-// EMAIL
-if (empty(filter_input(INPUT_POST, 'email'))) {
-    $errorMSG .= "Email is required ";
-} else {
-    $email = filter_input(INPUT_POST, 'email');
-}
+    /**
+     * @depends testEmpty
+     */
+    public function testPush(array $stack)
+    {
+        array_push($stack, 'foo');
+        $this->assertSame('foo', $stack[count($stack)-1]);
+        $this->assertNotEmpty($stack);
 
-// MSG Guest
-if (empty(filter_input(INPUT_POST, 'guest'))) {
-    $errorMSG .= "Subject is required ";
-} else {
-    $guest = filter_input(INPUT_POST, 'guest');
-}
+        return $stack;
+    }
 
-
-// MSG Event
-if (empty(filter_input(INPUT_POST, 'event'))) {
-    $errorMSG .= "Subject is required ";
-} else {
-    $event = filter_input(INPUT_POST, 'event');
-}
-
-
-// MESSAGE
-if (empty(filter_input(INPUT_POST, 'message'))) {
-    $errorMSG .= "Message is required ";
-} else {
-    $message = filter_input(INPUT_POST, 'message');
-}
-
-
-$EmailTo = "armanmia7@gmail.com";
-$Subject = "New Message Received";
-
-// prepare email body text
-$Body = "";
-$Body .= "Name: ";
-$Body .= $name;
-$Body .= "\n";
-$Body .= "Email: ";
-$Body .= $email;
-$Body .= "\n";
-$Body .= "guest: ";
-$Body .= $guest;
-$Body .= "\n";
-$Body .= "event: ";
-$Body .= $event;
-$Body .= "\n";
-$Body .= "Message: ";
-$Body .= $message;
-$Body .= "\n";
-
-// send email
-$success = mail($EmailTo, $Subject, $Body, "From:".$email);
-
-// redirect to success page
-if ($success && $errorMSG == ""){
-   echo "success";
-}else{
-    if($errorMSG == ""){
-        echo "Something went wrong :(";
-    } else {
-        echo $errorMSG;
+    /**
+     * @depends testPush
+     */
+    public function testPop(array $stack)
+    {
+        $this->assertSame('foo', array_pop($stack));
+        $this->assertEmpty($stack);
     }
 }
-
