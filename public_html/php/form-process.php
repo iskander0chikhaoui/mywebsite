@@ -11,7 +11,7 @@ if (empty($_POST["name"])) {
 
 // EMAIL
 if (empty($_POST["email"])) {
-    $errorMSG .= "Emaiil is required ";
+    $errorMSG .= "Email is required ";
 } else {
     $email = $_POST["email"];
 }
